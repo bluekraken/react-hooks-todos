@@ -1,16 +1,29 @@
+import { useContext, useReducer } from "react";
 import Head from "next/head";
+import TodosContext from "../src/context";
+import reducer from "../src/reducer";
+import TodoForm from "../components/TodoForm";
+import TodosList from "../components/TodosList";
 
-export default function Home() {
-    return (
-        <div>
-            <Head>
-                <title>React Hooks Todos</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+const HomePage = () => {
+  const initialState = useContext(TodosContext);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-            <main>
-                <h1>Todos App</h1>
-            </main>
-        </div>
-    );
-}
+  return (
+    <TodosContext.Provider value={{ state, dispatch }}>
+      <div>
+        <Head>
+          <title>React Hooks Todos</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
+        <main>
+          <TodoForm />
+          <TodosList />
+        </main>
+      </div>
+    </TodosContext.Provider>
+  );
+};
+
+export default HomePage;
